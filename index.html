@@ -28,18 +28,38 @@
             text-align: center;
             margin-bottom: 40px;
             color: #d4af37;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .logo-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
         }
 
         header h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             letter-spacing: 2px;
+            display: inline-block;
         }
 
         header p {
             font-size: 1.1em;
             color: #e8c547;
             opacity: 0.9;
+            margin-top: 10px;
         }
 
         .main-content {
@@ -332,6 +352,15 @@
             .matches-grid {
                 grid-template-columns: 1fr;
             }
+
+            .logo-img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .logo-container {
+                margin-bottom: 15px;
+            }
         }
 
         .hide {
@@ -357,6 +386,27 @@
 <body>
     <div class="container">
         <header>
+            <div class="logo-container">
+                <svg width="100" height="100" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background rounded square -->
+                    <rect x="30" y="30" width="140" height="140" rx="30" fill="#0d3d1a"/>
+                    <!-- Inner rounded square outline -->
+                    <rect x="50" y="50" width="100" height="100" rx="20" fill="none" stroke="white" stroke-width="8"/>
+                    <!-- Connection wave/S curve -->
+                    <path d="M 65 75 Q 85 60, 100 75 Q 115 90, 135 75" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M 65 125 Q 85 140, 100 125 Q 115 110, 135 125" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <!-- Gold accent diamonds -->
+                    <g transform="translate(155, 25)">
+                        <rect x="0" y="0" width="15" height="15" rx="3" fill="#d4af37" transform="rotate(45 7.5 7.5)"/>
+                    </g>
+                    <g transform="translate(135, 45)">
+                        <rect x="0" y="0" width="12" height="12" rx="2" fill="#e8c547" transform="rotate(45 6 6)"/>
+                    </g>
+                    <g transform="translate(155, 55)">
+                        <rect x="0" y="0" width="12" height="12" rx="2" fill="#d4af37" transform="rotate(45 6 6)"/>
+                    </g>
+                </svg>
+            </div>
             <h1>SaudiConneX</h1>
             <p>Strategic Partnership Matchmaking Platform</p>
         </header>
