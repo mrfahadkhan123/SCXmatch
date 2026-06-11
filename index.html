@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaudiConneX - Matchmaking Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d3d1a 0%, #1a5c2a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #d4af37;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: #e8c547;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-left: 5px solid #d4af37;
+        }
+
+        .form-section h2 {
+            color: #0d3d1a;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #0d3d1a;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e8c547;
+            border-radius: 4px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 14px 28px;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0d3d1a 0%, #1a5c2a 100%);
+            color: #d4af37;
+            grid-column: 1 / -1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e8e8e8;
+            color: #0d3d1a;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-header {
+            color: #d4af37;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .results-header h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .results-header p {
+            color: #e8c547;
+            font-size: 1.1em;
+        }
+
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .match-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #d4af37;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #0d3d1a 0%, #1a5c2a 100%);
+            padding: 20px;
+            color: #d4af37;
+        }
+
+        .card-header h3 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+
+        .strategic-fit {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .fit-very-high {
+            background: #d4af37;
+            color: #0d3d1a;
+        }
+
+        .fit-high {
+            background: #e8c547;
+            color: #0d3d1a;
+        }
+
+        .fit-medium {
+            background: #c4a037;
+            color: white;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-info-row {
+            margin-bottom: 18px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .card-info-row:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            color: #0d3d1a;
+            font-weight: 600;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+
+        .card-footer {
+            padding: 20px;
+            background: #f9f9f9;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .btn-interested {
+            background: linear-gradient(135deg, #0d3d1a 0%, #1a5c2a 100%);
+            color: #d4af37;
+            padding: 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-interested:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-skip {
+            background: #e8e8e8;
+            color: #0d3d1a;
+            padding: 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-skip:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-back {
+            background: #e8c547;
+            color: #0d3d1a;
+            padding: 12px 24px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .btn-back:hover {
+            background: #d4af37;
+            transform: translateY(-2px);
+        }
+
+        .no-matches {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            color: #0d3d1a;
+        }
+
+        .no-matches h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .no-matches p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            .matches-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .match-card.fade-out {
+            animation: fadeOut 0.3s ease-out;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SaudiConneX</h1>
+            <p>Strategic Partnership Matchmaking Platform</p>
+        </header>
+
+        <!-- Profile Form Section -->
+        <div class="main-content" id="formSection">
+            <div class="form-section">
+                <h2>Your Profile</h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="industry">Industry</label>
+                        <select id="industry" required>
+                            <option value="">Select Industry</option>
+                            <option value="AI & Technology">AI & Technology</option>
+                            <option value="Finance & Investment">Finance & Investment</option>
+                            <option value="Renewable Energy">Renewable Energy</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Logistics">Logistics</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country/Region</label>
+                        <select id="country" required>
+                            <option value="">Select Location</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="UAE">UAE</option>
+                            <option value="UK">UK</option>
+                            <option value="Germany">Germany</option>
+                            <option value="USA">USA</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatNeed">What You Need</label>
+                        <textarea id="whatNeed" placeholder="e.g., Local Saudi Partner, Investment Opportunities, Technology..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatOffer">What You Offer</label>
+                        <textarea id="whatOffer" placeholder="e.g., Technology, Market Access, Capital, Services..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="targetMarket">Target Market</label>
+                        <select id="targetMarket" required>
+                            <option value="">Select Target Market</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="GCC Region">GCC Region</option>
+                            <option value="Middle East">Middle East</option>
+                            <option value="Global">Global</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dealSize">Deal Size</label>
+                        <select id="dealSize" required>
+                            <option value="">Select Range</option>
+                            <option value="500K-1M">$500K - $1M</option>
+                            <option value="1M-5M">$1M - $5M</option>
+                            <option value="5M-10M">$5M - $10M</option>
+                            <option value="10M-50M">$10M - $50M</option>
+                            <option value="50M+">$50M+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeline">Timeline</label>
+                        <select id="timeline" required>
+                            <option value="">Select Timeline</option>
+                            <option value="Immediate">Immediate</option>
+                            <option value="1–3 Months">1–3 Months</option>
+                            <option value="3–6 Months">3–6 Months</option>
+                            <option value="6–12 Months">6–12 Months</option>
+                        </select>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">Find Matches</button>
+                        <button type="reset" class="btn-secondary">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 8px; color: #e8c547; display: flex; align-items: center; justify-content: center; text-align: center;">
+                <div>
+                    <h3 style="font-size: 1.5em; margin-bottom: 15px; color: #d4af37;">How It Works</h3>
+                    <p style="line-height: 1.8; font-size: 1.05em;">
+                        1. Fill in your profile information<br><br>
+                        2. Click "Find Matches" to see top strategic partners<br><br>
+                        3. Review anonymous match cards showing strategic fit<br><br>
+                        4. Express interest or skip to explore other opportunities<br><br>
+                        5. All profiles remain anonymous until both parties connect
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <button class="btn-back" onclick="goBackToForm()">← Back to Profile</button>
+
+            <div class="results-header">
+                <h2>Your Top 5 Matches</h2>
+                <p id="matchCount"></p>
+            </div>
+
+            <div class="matches-grid" id="matchesGrid"></div>
+
+            <div class="no-matches hide" id="noMatches">
+                <h3>No Matches Found</h3>
+                <p>Try adjusting your profile criteria for better results.</p>
+                <button class="btn-back" onclick="goBackToForm()">← Back to Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
