@@ -144,8 +144,7 @@
         }
 
         .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
@@ -156,8 +155,7 @@
         }
 
         .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-group select:focus {
             outline: none;
             border-color: #d4af37;
             box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
@@ -207,10 +205,6 @@
             text-decoration: underline;
         }
 
-        .text-center {
-            text-align: center;
-        }
-
         /* MAIN LAYOUT */
         .layout {
             display: grid;
@@ -230,16 +224,16 @@
             padding: 30px 20px;
             overflow-y: auto;
             position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 40px;
             font-size: 18px;
             font-weight: bold;
             letter-spacing: 1px;
+            margin-bottom: 40px;
         }
 
         .logo-text-main {
@@ -256,7 +250,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-top: -8px;
-            margin-left: 20px;
+            margin-left: 0;
         }
 
         .nav-section {
@@ -283,6 +277,10 @@
             transition: all 0.3s;
             color: #b8b8b8;
             font-size: 14px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
         }
 
         .nav-item:hover {
@@ -313,11 +311,13 @@
             margin-left: auto;
         }
 
+        .nav-flex {
+            flex: 1;
+            overflow-y: auto;
+        }
+
         .user-logout {
-            position: absolute;
-            bottom: 30px;
-            left: 20px;
-            right: 20px;
+            margin-top: auto;
         }
 
         .logout-btn {
@@ -335,6 +335,39 @@
 
         .logout-btn:hover {
             background: rgba(212, 175, 55, 0.2);
+        }
+
+        /* MOBILE MENU */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .sidebar.mobile-open {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            z-index: 1000;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
         }
 
         /* MAIN CONTENT */
@@ -357,16 +390,18 @@
         .progress-bar {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             flex: 1;
+            overflow-x: auto;
         }
 
         .progress-step {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
+            font-size: 13px;
             color: #999;
+            white-space: nowrap;
         }
 
         .progress-step.completed {
@@ -398,15 +433,17 @@
         }
 
         .progress-connector {
-            width: 40px;
+            width: 30px;
             height: 2px;
             background: #e0e0e0;
+            flex-shrink: 0;
         }
 
         .top-right {
             display: flex;
             align-items: center;
             gap: 20px;
+            margin-left: 20px;
         }
 
         .notification-icon {
@@ -512,6 +549,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .match-info {
@@ -560,7 +599,6 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 14px;
         }
 
         .match-number {
@@ -708,8 +746,193 @@
             margin: 30px 0;
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0d3d1a;
+            margin-bottom: 10px;
+        }
+
+        .empty-text {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .selections-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .selection-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #d4af37;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .selection-item-info h3 {
+            color: #0d3d1a;
+            margin-bottom: 5px;
+        }
+
+        .selection-item-info p {
+            color: #999;
+            font-size: 13px;
+        }
+
+        .selection-item-action {
+            background: #f5f5f5;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .introduction-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .intro-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .intro-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .intro-status.approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .intro-status.connected {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
         /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .progress-bar {
+                display: none;
+            }
+
+            .matches-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 260px;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .top-bar {
+                padding: 15px;
+                height: auto;
+                flex-wrap: wrap;
+            }
+
+            .progress-bar {
+                display: none;
+            }
+
+            .top-right {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .matches-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .page-subtitle {
+                font-size: 14px;
+            }
+
+            .match-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .matches-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
             .auth-box {
                 grid-template-columns: 1fr;
             }
@@ -718,41 +941,50 @@
                 display: none;
             }
 
-            .layout {
-                grid-template-columns: 1fr;
+            .auth-right {
+                padding: 30px;
             }
 
-            .sidebar {
-                display: none;
+            .auth-title {
+                font-size: 20px;
+            }
+
+            .selection-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .selection-item-action {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 18px;
+            }
+
+            .top-bar {
+                padding: 12px;
             }
 
             .content {
+                padding: 15px;
+            }
+
+            .empty-state {
+                padding: 40px 20px;
+            }
+
+            .auth-right {
                 padding: 20px;
             }
 
-            .matches-grid {
-                grid-template-columns: 1fr;
+            .form-group {
+                margin-bottom: 15px;
             }
-
-            .progress-bar {
-                display: none;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .error-message {
-            color: #e74c3c;
-            font-size: 12px;
-            margin-top: 4px;
-        }
-
-        .success-message {
-            color: #0d3d1a;
-            font-size: 12px;
-            margin-top: 4px;
         }
     </style>
 </head>
@@ -873,20 +1105,19 @@
                         </div>
 
                         <button type="submit" class="btn-submit">Create Account</button>
-
-                        <div class="form-link">
-                            Already have an account? <a href="#" onclick="toggleAuthMode(event)">Sign In</a>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
     <!-- MAIN PLATFORM -->
     <div class="layout" id="mainLayout">
         <!-- SIDEBAR -->
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="logo">
                 <div>
                     <div class="logo-text-main">Saudi<span class="logo-text-accent">ConneX</span></div>
@@ -894,51 +1125,53 @@
                 </div>
             </div>
 
-            <div class="nav-section">
-                <div class="nav-item active" onclick="navigateTo('dashboard')">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
+            <div class="nav-flex">
+                <div class="nav-section">
+                    <button class="nav-item active" onclick="navigateTo('dashboard')">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="nav-item" onclick="navigateTo('findmatches')">
+                        <i class="fas fa-search"></i>
+                        <span>Find Matches</span>
+                    </button>
+                    <button class="nav-item" onclick="navigateTo('selections')">
+                        <i class="fas fa-star"></i>
+                        <span>My Selections</span>
+                    </button>
+                    <button class="nav-item" onclick="navigateTo('introductions')">
+                        <i class="fas fa-handshake"></i>
+                        <span>My Introductions</span>
+                    </button>
+                    <button class="nav-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                        <div class="badge">2</div>
+                    </button>
+                    <button class="nav-item">
+                        <i class="fas fa-users"></i>
+                        <span>My Network</span>
+                    </button>
                 </div>
-                <div class="nav-item" onclick="navigateTo('findmatches')">
-                    <i class="fas fa-search"></i>
-                    <span>Find Matches</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-star"></i>
-                    <span>My Selections</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-handshake"></i>
-                    <span>My Introductions</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                    <div class="badge">2</div>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-users"></i>
-                    <span>My Network</span>
-                </div>
-            </div>
 
-            <div class="nav-section-title">Opportunities</div>
-            <div class="nav-section">
-                <div class="nav-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Investments</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Projects</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-people-carry"></i>
-                    <span>Partners</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
+                <div class="nav-section-title">Opportunities</div>
+                <div class="nav-section">
+                    <button class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Investments</span>
+                    </button>
+                    <button class="nav-item">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Projects</span>
+                    </button>
+                    <button class="nav-item">
+                        <i class="fas fa-people-carry"></i>
+                        <span>Partners</span>
+                    </button>
+                    <button class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </button>
                 </div>
             </div>
 
@@ -953,25 +1186,28 @@
         <div class="main-content">
             <!-- TOP BAR -->
             <div class="top-bar">
+                <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="progress-bar">
                     <div class="progress-step completed">
                         <i class="fas fa-check"></i>
-                        Match Type
+                        <span>Match Type</span>
                     </div>
                     <div class="progress-connector"></div>
                     <div class="progress-step completed">
                         <i class="fas fa-check"></i>
-                        Your Profile
+                        <span>Your Profile</span>
                     </div>
                     <div class="progress-connector"></div>
                     <div class="progress-step completed">
                         <i class="fas fa-check"></i>
-                        Preferences
+                        <span>Preferences</span>
                     </div>
                     <div class="progress-connector"></div>
                     <div class="progress-step">
                         <span style="width: 24px; height: 24px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0d3d1a; font-weight: bold; font-size: 12px;">4</span>
-                        Matches
+                        <span>Matches</span>
                     </div>
                 </div>
                 <div class="top-right">
@@ -999,7 +1235,7 @@
                                 <i class="fas fa-trophy"></i>
                             </div>
                             <div>
-                                <h1 class="page-title">Top 5 Strategic Matches For You</h1>
+                                <h1 class="page-title">Top 5 Strategic Matches</h1>
                                 <p class="page-subtitle">Based on your profile and preferences</p>
                             </div>
                         </div>
@@ -1013,24 +1249,55 @@
                         <i class="fas fa-star" style="color: #d4af37;"></i> You have 5 strategic matches
                     </p>
 
-                    <div class="matches-grid" id="matchesGrid"></div>
+                    <div class="matches-grid" id="matchesGridDashboard"></div>
+                </div>
 
-                    <div class="section-divider"></div>
+                <!-- FIND MATCHES PAGE -->
+                <div class="page" id="page-findmatches">
+                    <h1 class="page-title">Find Strategic Partners</h1>
+                    <p class="page-subtitle">Connect with the right partners to grow your business in Saudi Arabia and beyond</p>
+                    <div class="matches-grid" id="matchesGridFind"></div>
+                </div>
 
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
-                        <p style="color: #666; font-size: 14px;">
-                            <i class="fas fa-check" style="color: #0d3d1a; margin-right: 8px;"></i>
-                            Select the opportunities you are interested in, then click Submit to send your request to SaudiConneX for review.
-                        </p>
-                        <button class="btn btn-primary" style="width: auto;">Review My Selections (0) →</button>
+                <!-- MY SELECTIONS PAGE -->
+                <div class="page" id="page-selections">
+                    <h1 class="page-title">My Selections</h1>
+                    <p class="page-subtitle">Companies you've expressed interest in</p>
+                    <div class="selections-list" id="selectionsList">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-inbox"></i>
+                            </div>
+                            <div class="empty-title">No selections yet</div>
+                            <p class="empty-text">When you click "Interested" on matches, they will appear here</p>
+                            <button class="btn btn-primary" onclick="navigateTo('findmatches')">Browse Matches</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MY INTRODUCTIONS PAGE -->
+                <div class="page" id="page-introductions">
+                    <h1 class="page-title">My Introductions</h1>
+                    <p class="page-subtitle">Track the status of your partnership introductions</p>
+                    <div class="selections-list" id="introductionsList">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="empty-title">No introductions yet</div>
+                            <p class="empty-text">Your introductions will appear here once they're processed</p>
+                            <button class="btn btn-primary" onclick="navigateTo('findmatches')">Find Matches</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="app.js"></script>
     <script>
+        // DATA STORE
+        let userSelections = [];
+
         // Check if user is already logged in
         function checkAuth() {
             const user = localStorage.getItem('saudiconnex_user');
@@ -1081,14 +1348,11 @@
 
         function handleLogout() {
             localStorage.removeItem('saudiconnex_user');
+            userSelections = [];
             document.getElementById('authScreen').style.display = 'flex';
             document.getElementById('mainLayout').classList.remove('active');
             document.getElementById('signupForm').reset();
-        }
-
-        function toggleAuthMode(event) {
-            event.preventDefault();
-            alert('Login feature coming soon. Please sign up to continue.');
+            closeSidebar();
         }
 
         function navigateTo(page) {
@@ -1099,6 +1363,27 @@
             if (targetPage) {
                 targetPage.classList.add('active');
             }
+
+            // Update active nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+
+            closeSidebar();
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
         }
 
         function loadMatches() {
@@ -1165,54 +1450,104 @@
                 }
             ];
 
-            const matchesGrid = document.getElementById('matchesGrid');
-            matchesGrid.innerHTML = matchesData.map((match, index) => `
-                <div class="match-card">
-                    <div class="match-card-image" style="background: linear-gradient(135deg, #${match.color} 0%, ${match.color === '667eea' ? '764ba2' : match.color === 'f093fb' ? '4facfe' : match.color === '4facfe' ? 'f093fb' : match.color === '7c3aed' ? 'ec4899' : '06b6d4'} 100%);">
-                        <div class="match-number">${match.id}</div>
-                        <div class="match-icon-center">
-                            <i class="fas fa-building"></i>
+            const renderMatches = (data, containerId) => {
+                const container = document.getElementById(containerId);
+                container.innerHTML = data.map((match, index) => `
+                    <div class="match-card">
+                        <div class="match-card-image" style="background: linear-gradient(135deg, #${match.color} 0%, ${match.color === '667eea' ? '764ba2' : match.color === 'f093fb' ? '4facfe' : match.color === '4facfe' ? 'f093fb' : match.color === '7c3aed' ? 'ec4899' : '06b6d4'} 100%);">
+                            <div class="match-number">${match.id}</div>
+                            <div class="match-icon-center">
+                                <i class="fas fa-building"></i>
+                            </div>
+                        </div>
+                        <div class="match-card-content">
+                            <div class="company-name">${match.name}</div>
+                            <div class="company-industry">${match.industry}</div>
+                            <div class="company-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Market: ${match.market}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>Seeking: ${match.seeking}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Timeline: ${match.timeline}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Size: ${match.size}</span>
+                                </div>
+                            </div>
+                            <div class="strategic-fit">
+                                <div class="fit-label">Strategic Fit</div>
+                                <div class="fit-level">
+                                    <span class="stars">${'★'.repeat(match.stars)}${'☆'.repeat(5-match.stars)}</span>
+                                    <span class="fit-text">${match.fit}</span>
+                                </div>
+                            </div>
+                            <div class="match-actions">
+                                <button class="btn btn-interested" onclick="addSelection('${match.name}', ${match.id})">
+                                    <i class="fas fa-thumbs-up"></i> Interested
+                                </button>
+                                <button class="btn btn-skip">
+                                    <i class="fas fa-times"></i> Skip
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="match-card-content">
-                        <div class="company-name">${match.name}</div>
-                        <div class="company-industry">${match.industry}</div>
-                        <div class="company-details">
-                            <div class="detail-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Market: ${match.market}</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-search"></i>
-                                <span>Seeking: ${match.seeking}</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-clock"></i>
-                                <span>Timeline: ${match.timeline}</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-users"></i>
-                                <span>Size: ${match.size}</span>
-                            </div>
+                `).join('');
+            };
+
+            renderMatches(matchesData, 'matchesGridDashboard');
+            renderMatches(matchesData, 'matchesGridFind');
+        }
+
+        function addSelection(companyName, matchId) {
+            if (!userSelections.find(s => s.id === matchId)) {
+                userSelections.push({
+                    id: matchId,
+                    name: companyName,
+                    date: new Date().toLocaleDateString()
+                });
+                updateSelections();
+                alert(`Added "${companyName}" to your selections!`);
+            }
+        }
+
+        function updateSelections() {
+            const list = document.getElementById('selectionsList');
+            if (userSelections.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-inbox"></i>
                         </div>
-                        <div class="strategic-fit">
-                            <div class="fit-label">Strategic Fit</div>
-                            <div class="fit-level">
-                                <span class="stars">${'★'.repeat(match.stars)}${'☆'.repeat(5-match.stars)}</span>
-                                <span class="fit-text">${match.fit}</span>
-                            </div>
+                        <div class="empty-title">No selections yet</div>
+                        <p class="empty-text">When you click "Interested" on matches, they will appear here</p>
+                        <button class="btn btn-primary" onclick="navigateTo('findmatches')">Browse Matches</button>
+                    </div>
+                `;
+            } else {
+                list.innerHTML = userSelections.map(selection => `
+                    <div class="selection-item">
+                        <div class="selection-item-info">
+                            <h3>${selection.name}</h3>
+                            <p>Added on ${selection.date}</p>
                         </div>
-                        <div class="match-actions">
-                            <button class="btn btn-interested">
-                                <i class="fas fa-thumbs-up"></i> Interested
-                            </button>
-                            <button class="btn btn-skip">
-                                <i class="fas fa-times"></i> Skip
-                            </button>
+                        <div class="selection-item-action" onclick="removeSelection(${selection.id})">
+                            Remove
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
+        }
+
+        function removeSelection(matchId) {
+            userSelections = userSelections.filter(s => s.id !== matchId);
+            updateSelections();
         }
 
         // Initialize
